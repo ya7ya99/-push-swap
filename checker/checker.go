@@ -10,15 +10,26 @@ import (
 
 func main() {
     a := CheckArgs()
-	//L := len(a)
 	if a == nil {
 		return
 	}
 	b := []int{}
 	scanner := bufio.NewScanner(os.Stdin)
     data := ""
+	commandes := []string{"pa","pb","sa","sb","ss","ra", "rb","rr", "rra", "rrb", "rrr"}
 	for scanner.Scan() {
 		f := strings.TrimSpace(scanner.Text())
+		var check = false
+		for _, com := range commandes {
+			if f == com {
+				check = true
+				break
+			}
+		}
+		if !check {
+			fmt.Println("Invalid commande")
+			os.Exit(1)
+		}
 		data += f+"\n"
 	}
 
@@ -91,8 +102,6 @@ func main() {
                 }
                 a, b = Rrr(a, b)
             default:
-				fmt.Println(d)
-
                 fmt.Println("Invalid commande")
             }
         }
@@ -224,7 +233,7 @@ func isSortable(a []int) bool {
 		if len(a) == 0 {
 			break
 		}
-		i, _ := SearchSmallNum(a)
+		i := SearchSmallNum(a)
 		if i == 0 {
 			a = a[1:]
 		} else {
@@ -234,7 +243,7 @@ func isSortable(a []int) bool {
 	return true
 }
 
-func SearchSmallNum(stack []int) (int, int) {
+func SearchSmallNum(stack []int) (int) {
 	min := stack[0]
 	var index int
 	for i, num := range stack {
@@ -243,5 +252,5 @@ func SearchSmallNum(stack []int) (int, int) {
 			index = i
 		}
 	}
-	return index, min
+	return index
 }
